@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Leaderboard'
+      modelName: 'Leaderboard',
+      tableName: 'leaderboards'
     }
   )
   return Leaderboard
