@@ -1,0 +1,28 @@
+{
+  "name": "u3_project_yelp_guesser_b",
+  "version": "1.0.0",
+  "description": "## A Restaurant-Themed Guessing Game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BLewis739/u3_project_yelp_guesser_b.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BLewis739/u3_project_yelp_guesser_b/issues"
+  },
+  "homepage": "https://github.com/BLewis739/u3_project_yelp_guesser_b#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "pg": "^8.7.3",
+    "sequelize": "^6.19.0"
+  }
+}
