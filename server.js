@@ -4,6 +4,7 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const AuthRouter = require('./routes/AuthRouter')
 const ScoreRouter = require('./routes/ScoreRouter')
+const LeaderboardRouter = require('./routes/LeaderboardRouter')
 const app = express()
 
 const PORT = process.env.PORT || 3001
@@ -15,5 +16,6 @@ app.use(bodyParser.json())
 app.get('/', (req, res) => res.json({ message: 'Server Works' }))
 app.use('/auth', AuthRouter)
 app.use('/score', ScoreRouter)
+app.use('/leaderboard', LeaderboardRouter)
 
 app.listen(PORT, () => console.log(`Server Running On Port: ${PORT}`))
