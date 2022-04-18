@@ -1,6 +1,5 @@
 const { User } = require('../models')
 const middleware = require('../middleware')
-const { password } = require('pg/lib/defaults')
 
 const Login = async (req, res) => {
   try {
@@ -27,7 +26,7 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
   try {
-    const { username, password } = req.body
+    const { username, password, zipcode } = req.body
     let passwordDigest = await middleware.hashPassword(password)
     const user = await User.create({ username, passwordDigest, zipcode })
     res.send(user)
