@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.belongsToMany(models.Score, {
-        through: models.ScoreList,
+        through: models.UserScores,
         as: 'scores',
         foreignKey: 'userId'
       })
