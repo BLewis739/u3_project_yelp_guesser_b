@@ -3,7 +3,11 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Leaderboard extends Model {
     static associate(models) {
-      Leaderboard.hasMany(models.Score, { as: 'scores', foreignKey: 'scoreId' })
+      Leaderboard.belongsToMany(models.Score, {
+        through: models.ScoreList,
+        as: 'scores',
+        foreignKey: 'scoreId'
+      })
     }
   }
   Leaderboard.init(

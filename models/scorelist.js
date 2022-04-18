@@ -1,37 +1,40 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class Score extends Model {
+  class ScoreList extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Score.belongsTo(models.User, { foreignKey: 'userId' })
-      Score.belongsToMany(models.Leaderboard, {
-        through: models.ScoreList,
-        as: 'scores',
-        foreignKey: 'scoreId'
-      })
+      // define association here
     }
   }
-  Score.init(
+  ScoreList.init(
     {
-      points: DataTypes.INTEGER,
-      userId: {
+      leaderboardId: {
         type: DataTypes.INTEGER,
+        onDelete: 'CASCADE',
         references: {
-          model: 'users',
+          model: 'leaderboards',
+          key: 'id'
+        }
+      },
+      scoreId: {
+        type: DataTypes.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'leaderboards',
           key: 'id'
         }
       }
     },
     {
       sequelize,
-      modelName: 'Score',
-      tableName: 'scores'
+      modelName: 'ScoreList',
+      tableName: 'leaderboard_score_list'
     }
   )
-  return Score
+  return ScoreList
 }
