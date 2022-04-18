@@ -8,7 +8,7 @@ router.put(
   '/changePassword/:user_id',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.updatePassword
+  controller.UpdatePassword
 )
 
 module.exports = router

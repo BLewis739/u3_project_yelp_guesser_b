@@ -35,7 +35,7 @@ const Register = async (req, res) => {
   }
 }
 
-const updatePassword = async (req, res) => {
+const UpdatePassword = async (req, res) => {
   try {
     let passwordDigest = await middleware.hashPassword(req.body.password)
     const user = await User.update(
@@ -52,5 +52,5 @@ const updatePassword = async (req, res) => {
 module.exports = {
   Login,
   Register,
-  updatePassword
+  UpdatePassword
 }
