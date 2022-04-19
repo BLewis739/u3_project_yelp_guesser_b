@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Leaderboard } = require('../models')
 const middleware = require('../middleware')
 const { password } = require('pg/lib/defaults')
 
@@ -30,6 +30,8 @@ const Register = async (req, res) => {
     const { username, password, zipcode } = req.body
     let passwordDigest = await middleware.hashPassword(password)
     const user = await User.create({ username, passwordDigest, zipcode })
+    const leaderboardName = `${username}'s Top Five Scores`
+    await Leaderboard.create({ name: leaderboardName })
     res.send(user)
   } catch (error) {
     throw error
