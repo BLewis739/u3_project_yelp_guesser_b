@@ -15,9 +15,21 @@ const getUsersAndScores = async () => {
   }
 }
 
+const getLeaderboardsAndScores = async () => {
+  try {
+    const data = await Leaderboard.findAll({
+      include: [{ model: Score, as: 'leaderboard_results' }]
+    })
+    stringify(data)
+  } catch (error) {
+    throw error
+  }
+}
+
 async function main() {
   try {
-    await getUsersAndScores()
+    //await getUsersAndScores()
+    await getLeaderboardsAndScores()
   } catch (error) {
     console.log(error)
   } finally {

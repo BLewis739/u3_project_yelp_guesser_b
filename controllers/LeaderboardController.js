@@ -23,4 +23,5 @@ const GetAllLeaderboards = async (req, res) => {
 module.exports = {
   GetAllLeaderboards,
   NewLeaderboard
+  //NewUserLeaderboard
 }

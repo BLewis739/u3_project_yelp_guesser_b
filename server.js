@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const AuthRouter = require('./routes/AuthRouter')
 const ScoreRouter = require('./routes/ScoreRouter')
 const LeaderboardRouter = require('./routes/LeaderboardRouter')
+const ScoreListRouter = require('./routes/ScoreListRouter')
 const app = express()
 
 const PORT = process.env.PORT || 3001
@@ -17,5 +18,6 @@ app.get('/', (req, res) => res.json({ message: 'Server Works' }))
 app.use('/auth', AuthRouter)
 app.use('/score', ScoreRouter)
 app.use('/leaderboard', LeaderboardRouter)
+app.use('/scorelist', ScoreListRouter)
 
 app.listen(PORT, () => console.log(`Server Running On Port: ${PORT}`))

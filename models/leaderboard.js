@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Leaderboard.belongsToMany(models.Score, {
         through: models.ScoreList,
-        as: 'scores',
-        foreignKey: 'scoreId'
+        as: 'leaderboard_results',
+        foreignKey: 'leaderboardId'
       })
     }
   }
