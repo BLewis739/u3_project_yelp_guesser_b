@@ -81,6 +81,6 @@ module.exports = {
   ScoresByUser,
   GetAllScores,
   DeleteScore,
-  GetScoreById,
-  NewScoreFull
+  GetScoreById
+  // NewScoreFull
 }
