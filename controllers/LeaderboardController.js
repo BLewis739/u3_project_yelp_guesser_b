@@ -20,8 +20,29 @@ const GetAllLeaderboards = async (req, res) => {
   }
 }
 
+const DeleteLeaderboard = async (req, res) => {
+  try {
+    const leaderboard_id = req.params.leaderboardId
+    await Leaderboard.destroy({ where: { id: leaderboard_id } })
+    res.send({ message: `Deleted score with an id of ${leaderboard_id}` })
+  } catch (error) {
+    throw error
+  }
+}
+
+const GetLeaderboardById = async (req, res) => {
+  try {
+    const lb_id = req.params.leaderboardId
+    const lb = await Leaderboard.findByPk(lb_id)
+    res.send(lb)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetAllLeaderboards,
-  NewLeaderboard
-  //NewUserLeaderboard
+  NewLeaderboard,
+  DeleteLeaderboard,
+  GetLeaderboardById
 }

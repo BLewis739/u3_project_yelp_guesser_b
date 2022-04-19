@@ -23,8 +23,29 @@ const GetAllScoreLists = async (req, res) => {
   }
 }
 
+const DeleteScoreList = async (req, res) => {
+  try {
+    const scorelist_id = req.params.scoreListId
+    await ScoreList.destroy({ where: { id: scorelist_id } })
+    res.send({ message: `Deleted scorelist with an id of ${scorelist_id}` })
+  } catch (error) {
+    throw error
+  }
+}
+
+const GetScoreListById = async (req, res) => {
+  try {
+    const sl_id = req.params.scoreListId
+    const sl = await ScoreList.findOne({ where: { id: sl_id } })
+    res.send(sl)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetAllScoreLists,
-  NewScoreList
-  //NewUserLeaderboard
+  NewScoreList,
+  DeleteScoreList,
+  GetScoreListById
 }
