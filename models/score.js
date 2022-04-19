@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Score.belongsTo(models.User, { foreignKey: 'userId' })
       Score.belongsToMany(models.Leaderboard, {
         through: models.ScoreList,
-        as: 'scores',
+        as: 'score_results',
         foreignKey: 'scoreId'
       })
     }

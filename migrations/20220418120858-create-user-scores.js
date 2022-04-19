@@ -11,6 +11,10 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
+      scoreId: {
+        type: Sequelize.INTEGER,
+        field: 'score_id'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
