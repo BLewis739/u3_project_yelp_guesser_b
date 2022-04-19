@@ -1,6 +1,5 @@
 const { User } = require('../models')
 const middleware = require('../middleware')
-const { password } = require('pg/lib/defaults')
 
 const Login = async (req, res) => {
   try {
@@ -19,8 +18,8 @@ const Login = async (req, res) => {
       let token = middleware.createToken(payload)
       res.send({ user: payload, token })
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
   } catch (error) {
+    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
     throw error
   }
 }
@@ -50,8 +49,14 @@ const updatePassword = async (req, res) => {
   } catch (error) {}
 }
 
+const CheckSession = async (req, res) => {
+  const { payload } = res.locals
+  res.send(payload)
+}
+
 module.exports = {
   Login,
   Register,
-  updatePassword
+  updatePassword,
+  CheckSession
 }
