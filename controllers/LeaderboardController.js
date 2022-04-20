@@ -1,5 +1,6 @@
-const { User, Score, Leaderboard } = require('../models')
+const { User, Score, Leaderboard, ScoreList } = require('../models')
 const middleware = require('../middleware')
+const { GetScoreListById } = require('./ScoreListController')
 
 const NewLeaderboard = async (req, res) => {
   try {
@@ -40,9 +41,24 @@ const GetLeaderboardById = async (req, res) => {
   }
 }
 
+const GetFullLeaderboardById = async (req, res) => {
+  try {
+    const lb_id = req.params.leaderboardId
+    const lb_scores = await ScoreList.findAll({
+      where: {
+        leaderboardId: lb_id
+      }
+    })
+    res.send(lb_scores)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetAllLeaderboards,
   NewLeaderboard,
   DeleteLeaderboard,
-  GetLeaderboardById
+  GetLeaderboardById,
+  GetFullLeaderboardById
 }
