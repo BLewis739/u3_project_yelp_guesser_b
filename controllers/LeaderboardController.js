@@ -140,6 +140,80 @@ const GetFullLeaderboardByUserId = async (req, res) => {
   }
 }
 
+const GetFullWorldLeaderboard = async (req, res) => {
+  try {
+    const leaderboard = await Leaderboard.findOne({
+      where: { name: 'World Top Five' }
+    })
+
+    const lb_id = leaderboard.id
+    const lb_scores = await ScoreList.findAll({
+      where: {
+        leaderboardId: lb_id
+      }
+    })
+    const score_ids = lb_scores.map((item) => {
+      return item.scoreId
+    })
+
+    const score_objects = []
+
+    for (i = 0; i < score_ids.length; i++) {
+      oneScore = score_ids[i]
+      score_obj = await Score.findOne({
+        where: { id: oneScore }
+      })
+      score_objects.push(score_obj)
+    }
+
+    const sorted_scores = []
+    let highScore = 0
+    let hsIndex = 0
+
+    while (score_objects.length > 0) {
+      for (i = 0; i < score_objects.length; i++) {
+        if (score_objects[i].points > highScore) {
+          highScore = score_objects[i].points
+          hsIndex = i
+        }
+      }
+      sorted_scores.push(score_objects[hsIndex])
+      score_objects.splice(hsIndex, 1)
+      highScore = 0
+    }
+
+    const score_dates = sorted_scores.map((item) => {
+      return item.createdAt.toString().substring(4, 15)
+    })
+
+    const score_users = sorted_scores.map((item) => {
+      return item.userId
+    })
+
+    const score_usernames = []
+    for (i = 0; i < score_users.length; i++) {
+      let userObj = await User.findOne({
+        where: { id: score_users[i] }
+      })
+      score_usernames.push(userObj.username)
+    }
+
+    const finalArray = []
+    for (i = 0; i < score_users.length; i++) {
+      let fullObj = {
+        username: score_usernames[i],
+        date: score_dates[i],
+        points: sorted_scores[i].points
+      }
+      finalArray.push(fullObj)
+    }
+
+    res.send(finalArray)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetAllLeaderboards,
   NewLeaderboard,
@@ -147,5 +221,6 @@ module.exports = {
   GetLeaderboardById,
   GetFullLeaderboardById,
   GetLeaderboardByUserId,
-  GetFullLeaderboardByUserId
+  GetFullLeaderboardByUserId,
+  GetFullWorldLeaderboard
 }

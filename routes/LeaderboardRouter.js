@@ -2,6 +2,7 @@ const router = require('express').Router()
 const controller = require('../controllers/LeaderboardController')
 
 router.post('/new-leaderboard', controller.NewLeaderboard)
+router.get('/world', controller.GetFullWorldLeaderboard)
 router.get('/', controller.GetAllLeaderboards)
 router.get('/:leaderboardId', controller.GetLeaderboardById)
 router.get(
