@@ -29,6 +29,12 @@ const NewScoreFull = async (req, res) => {
       order: [['points', 'DESC']],
       limit: 5
     })
+    const allUserScores = await Score.findAll({
+      where: { userId: userId },
+      order: [['points', 'DESC']],
+      limit: 5
+    })
+    //console.log(allUserScores)
     const newScore = await Score.create({ userId, points })
 
     // This only works if the World Leaderboard has an id of 1
@@ -36,6 +42,52 @@ const NewScoreFull = async (req, res) => {
     const worldLeaderboardId = 1
     const newScoreId = newScore.id
     let newTopFive = 'NOT '
+
+    const userOfScore = await User.findByPk(userId)
+    const usernameOfScore = userOfScore.username
+    const leaderboardNameForUser = `${usernameOfScore}'s Top Five Scores`
+    const leaderboardForUser = await Leaderboard.findOne({
+      where: {
+        name: leaderboardNameForUser
+      }
+    })
+    const leaderboardForUserId = leaderboardForUser.id
+
+    //
+    // Put score into user top five
+    //
+
+    if (allUserScores.length < 5) {
+      const newScoreListItem = await ScoreList.create({
+        leaderboardId: leaderboardForUserId,
+        scoreId: newScoreId
+      })
+    } else {
+      const oldUserFifthPlacePoints = allUserScores[4].points
+      console.log(oldUserFifthPlacePoints)
+      console.log(allUserScores[4].points)
+      if (oldUserFifthPlacePoints < points) {
+        //Put the new score in world top 5
+        console.log(leaderboardForUserId)
+        console.log(newScoreId)
+        const newScoreListItem = await ScoreList.create({
+          leaderboardId: leaderboardForUserId,
+          scoreId: newScoreId
+        })
+        //Delete the old fifth place
+        const oldUserFifthPlaceScoreId = allUserScores[4].id
+        await ScoreList.destroy({
+          where: {
+            scoreId: oldUserFifthPlaceScoreId
+          }
+        })
+      }
+    }
+
+    //
+    // Below is the process for checking and putting
+    // the score into the top five
+    //
 
     if (allScores.length < 5) {
       //Just put it in the top 5
