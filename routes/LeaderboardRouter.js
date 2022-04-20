@@ -8,6 +8,8 @@ router.get(
   '/full-leaderboard/:leaderboardId',
   controller.GetFullLeaderboardById
 )
+router.get('/userId/:userId', controller.GetLeaderboardByUserId)
+router.get('/userIdfull/:userId', controller.GetFullLeaderboardByUserId)
 router.delete('/delete/:leaderboardId', controller.DeleteLeaderboard)
 
 module.exports = router
