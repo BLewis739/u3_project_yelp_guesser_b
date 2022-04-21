@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const { TokenExpiredError } = require('jsonwebtoken')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -23,15 +22,14 @@ const createToken = (payload) => {
 
 const verifyToken = (req, res, next) => {
   const { token } = res.locals
-  try {
-    let payload = jwt.verify(token, APP_SECRET)
-    if (payload) {
-      return next()
-    }
-    res.status(401).send({ status: 'error', msg: 'unauthorized' })
-  } catch (error) {
-    res.status(401).send({ status: 'error', msg: 'unauthorized' })
+  let payload = jwt.verify(token, APP_SECRET)
+
+  if (payload) {
+    res.locals.payload = payload
+    return next()
   }
+
+  res.status(401).send({ status: 'error', msg: 'unauthorized' })
 }
 
 const stripToken = (req, res, next) => {
