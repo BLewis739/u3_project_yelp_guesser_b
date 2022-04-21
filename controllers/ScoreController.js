@@ -34,11 +34,8 @@ const NewScoreFull = async (req, res) => {
       order: [['points', 'DESC']],
       limit: 5
     })
-    //console.log(allUserScores)
     const newScore = await Score.create({ userId, points })
 
-    // This only works if the World Leaderboard has an id of 1
-    // It can be fixed later if it needs to be
     const worldLeaderboard = await Leaderboard.findOne({
       where: { name: 'World Top Five' }
     })
@@ -46,7 +43,6 @@ const NewScoreFull = async (req, res) => {
     const worldLeaderboardId = worldLeaderboard.id
 
     const newScoreId = newScore.id
-    let newTopFive = 'NOT '
 
     const userOfScore = await User.findByPk(userId)
     const usernameOfScore = userOfScore.username
@@ -94,8 +90,8 @@ const NewScoreFull = async (req, res) => {
     if (allScores.length < 5) {
       //Just put it in the top 5
       const newScoreListItem = await ScoreList.create({
-        worldLeaderboardId,
-        newScoreId
+        leaderboardId: worldLeaderboardId,
+        scoreId: newScoreId
       })
     } else {
       const oldFifthPlacePoints = allScores[4].points
