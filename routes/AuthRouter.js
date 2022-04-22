@@ -10,5 +10,12 @@ router.get(
   middleware.verifyToken,
   controller.CheckSession
 )
+router.put(
+  '/userpage',
+  middleware.stripToken,
+  middleware.verifyToken,
+  controller.updatePassword
+)
+router.delete('/userpage', controller.DeleteUser)
 
 module.exports = router
