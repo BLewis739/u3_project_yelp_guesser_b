@@ -39,16 +39,23 @@ const Register = async (req, res) => {
 
 const updatePassword = async (req, res) => {
   try {
-    let passwordDigest = await middleware.hashPassword(req.body.password)
-    const user = await User.update(
-      { passwordDigest: passwordDigest },
-      {
-        where: { id: req.params.user_id },
-        returning: true
-      }
-    )
-    res.send(user)
-  } catch (error) {}
+    const user = await User.findOne({ where: { id: req.body.id } })
+    if (
+      user &&
+      (await middleware.comparePassword(
+        user.dataValues.passwordDigest,
+        req.body.oldPassword
+      ))
+    ) {
+      let passwordDigest = await middleware.hashPassword(req.body.newPassword)
+
+      await user.update({ passwordDigest })
+      return res.send({ status: 'Success', msg: 'Password Updated' })
+    }
+    res.status(401).send({ status: 'Error', msg: 'Invalid Credentials' })
+  } catch (error) {
+    throw error
+  }
 }
 
 const CheckSession = async (req, res) => {
@@ -57,9 +64,19 @@ const CheckSession = async (req, res) => {
   res.send(payload)
 }
 
+const DeleteUser = async (req, res) => {
+  try {
+    const deleteUser = await User.Destroy({ where: { id: req.params.id } })
+    res.send(deleteUser)
+  } catch (error) {
+    res.status(401).send({ status: 'Error', msg: 'user id does not exist' })
+  }
+}
+
 module.exports = {
   Login,
   Register,
   updatePassword,
-  CheckSession
+  CheckSession,
+  DeleteUser
 }
