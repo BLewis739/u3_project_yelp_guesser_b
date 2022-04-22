@@ -66,7 +66,8 @@ const CheckSession = async (req, res) => {
 
 const DeleteUser = async (req, res) => {
   try {
-    const user = await User.Destroy({ where: { id: req.params.id } })
+    const deleteUser = await User.Destroy({ where: { id: req.params.id } })
+    res.send(deleteUser)
   } catch (error) {
     res.status(401).send({ status: 'Error', msg: 'user id does not exist' })
   }
